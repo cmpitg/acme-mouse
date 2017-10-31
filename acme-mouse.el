@@ -50,31 +50,34 @@
 (setq acme-mouse-state 'none)
 (setq acme-last-command 'none)
 
-;; default: mouse-drag-region
-(global-set-key [(down-mouse-1)] 'acme-down-mouse-1)
+(defvar acme-mouse-mode-map
+  (let ((map (make-sparse-keymap)))
+    ;; default: mouse-drag-region
+    (define-key map [(down-mouse-1)] 'acme-down-mouse-1)
 
-;; default: mouse-set-point
-(global-set-key [(mouse-1)] 'acme-mouse-1)
+    ;; default: mouse-set-point
+    (define-key map [(mouse-1)] 'acme-mouse-1)
 
-;; default: mouse-set-region
-(global-set-key [(drag-mouse-1)] 'acme-drag-mouse-1)
-(global-set-key [(double-drag-mouse-1)] 'acme-double-mouse-1)
-(global-set-key [(triple-drag-mouse-1)] 'acme-double-mouse-1)
+    ;; default: mouse-set-region
+    (define-key map [(drag-mouse-1)] 'acme-drag-mouse-1)
+    (define-key map [(double-drag-mouse-1)] 'acme-double-mouse-1)
+    (define-key map [(triple-drag-mouse-1)] 'acme-double-mouse-1)
 
-(global-set-key [(double-mouse-1)] 'acme-double-mouse-1)
-(global-set-key [(triple-mouse-1)] 'acme-double-mouse-1)
+    (define-key map [(double-mouse-1)] 'acme-double-mouse-1)
+    (define-key map [(triple-mouse-1)] 'acme-double-mouse-1)
 
-;; default: none
-(global-set-key [(down-mouse-2)] 'acme-down-mouse-2)
+    ;; default: none
+    (define-key map [(down-mouse-2)] 'acme-down-mouse-2)
 
-;; default: mouse-yank-at-click
-(global-set-key [(mouse-2)] 'acme-mouse-2)
+    ;; default: mouse-yank-at-click
+    (define-key map [(mouse-2)] 'acme-mouse-2)
 
-;; default: none
-(global-set-key [(down-mouse-3)] 'acme-down-mouse-3)
+    ;; default: none
+    (define-key map [(down-mouse-3)] 'acme-down-mouse-3)
 
-;; default: mouse-save-then-kill
-(global-set-key [(mouse-3)] 'acme-mouse-3)
+    ;; default: mouse-save-then-kill
+    (define-key map [(mouse-3)] 'acme-mouse-3)
+    map))
 
 ;; everything starts with this function, so set state accordingly
 (defun acme-down-mouse-1 (click)
@@ -207,5 +210,12 @@ This is inspired by Rob Pike's Acme."
       (universal-argument)
       (recenter))
     (move-mouse-to-point)))
+
+(define-minor-mode acme-mouse-mode
+  "A minor mode enabling acme-like mouse actions.
+
+\\{acme-mouse-mode-map}"
+  :keymap acme-mouse-mode-map
+  :lighter " acme")
 
 (provide 'acme-mouse)
