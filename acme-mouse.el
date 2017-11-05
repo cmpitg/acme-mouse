@@ -79,6 +79,10 @@
     (define-key map [(mouse-3)] 'acme-mouse-3)
     map))
 
+(define-globalized-minor-mode global-acme-mouse-mode
+  acme-mouse-mode
+  acme-mouse-mode)
+
 ;; everything starts with this function, so set state accordingly
 (defun acme-down-mouse-1 (click)
   (interactive "e")
